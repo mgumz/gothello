@@ -14,6 +14,7 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"log"
 	"math/rand"
 	"net"
 	"net/http"
@@ -32,7 +33,8 @@ var QUOTES = []string{
 	"Rude am I in my speech, And little blessed with the soft phrase of peace.\n",
 }
 
-func gothello(w http.ResponseWriter, _ *http.Request) {
+func gothello(w http.ResponseWriter, r *http.Request) {
+	log.Println(*r)
 	io.WriteString(w, QUOTES[rand.Intn(len(QUOTES))])
 }
 
@@ -57,6 +59,7 @@ func main() {
 			continue
 		}
 		servers.Add(1)
+		log.Println("listen on \"" + addr + "\"")
 		go http.Serve(conn, nil)
 	}
 
